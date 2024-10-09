@@ -8,10 +8,12 @@ namespace A4QN57_HSZF_2024251.Model
 {
     public class Course
     {
-        private string id;
+        private string courseId;
         private string courseTitle;
         private string description;
-        private string Category;
-
+        private Category Category;
+        private int hoursLength;
+        private DateTime publicDate;
+        private Status status;
     }
 }
