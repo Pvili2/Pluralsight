@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\A4QN57_HSZF_2024251.Application\A4QN57_HSZF_2024251.Application.csproj" />
     <ProjectReference Include="..\A4QN57_HSZF_2024251.Model\A4QN57_HSZF_2024251.Model.csproj" />
     <ProjectReference Include="..\A4QN57_HSZF_2024251.Persistence.MsSql\A4QN57_HSZF_2024251.Persistence.MsSql.csproj" />
