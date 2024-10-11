@@ -8,9 +8,12 @@ namespace A4QN57_HSZF_2024251.Model
 {
     public class User
     {
-        private string userId;
-        private string name;
-        private DateTime registrationDate;
-        private int numberOfLicense;
+
+        public int Id {get; set; }
+        public string Name { get; set; }
+        public DateTime RegistrationDate { get; set; }
+        public int NumberOfLicense { get; set; }
+
+        public virtual ICollection<License> Licenses { get; set; }
     }
 }

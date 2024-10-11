@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "ConsoleApp": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DB_CONNECTION": "Data Source=(localdb)\\MSSQLLocalDB; Initial Catalog=Plurasight",
+        "ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
