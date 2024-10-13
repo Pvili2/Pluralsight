@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace A4QN57_HSZF_2024251.Persistence.MsSql.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241010154257_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20241013185911_InitialMigaration")]
+    partial class InitialMigaration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -101,6 +101,10 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql.Migrations
 
                     b.Property<int>("NumberOfLicense")
                         .HasColumnType("int");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime2");

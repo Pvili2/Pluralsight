@@ -14,11 +14,11 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
             bool isProductionMode = Environment.GetEnvironmentVariable("ENVIRONMENT") == "Production";
             if (isProductionMode)
             {
-                optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("DB_CONNECTION"));
+                optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB; Initial Catalog=Plurasight");
             }
             else
             {
-                optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("DB_CONNECTION"))
+                optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB; Initial Catalog=Plurasight")
                     .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information );
             }
         }

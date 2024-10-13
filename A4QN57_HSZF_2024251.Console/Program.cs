@@ -28,6 +28,7 @@ namespace A4QN57_HSZF_2024251
                 {
                     services.AddTransient<AppDbContext>();
                     services.AddSingleton<ICourseServiceDataProvider, CourseDataProvider>();
+                    services.AddSingleton<IUserServiceDataProvider, UserDataProvider>();
                 }).Build();
 
             await host.StartAsync();
@@ -36,8 +37,12 @@ namespace A4QN57_HSZF_2024251
             IServiceProvider serviceProvider = serviceScope.ServiceProvider;
 
             var courseService = serviceProvider.GetService<ICourseServiceDataProvider>();
+            var userService = serviceProvider.GetService<IUserServiceDataProvider>();
 
             await courseService.CreateCourse(exampleCourse);
+
+            Console.WriteLine(userService.Login("Padla Vilmos", "Csempe1234*"));
+           
             Console.WriteLine("Press any key to shutdown!");
             Console.ReadKey();
         }

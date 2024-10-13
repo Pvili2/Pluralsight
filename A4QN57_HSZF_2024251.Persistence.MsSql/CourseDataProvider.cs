@@ -1,4 +1,5 @@
 ﻿using A4QN57_HSZF_2024251.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,11 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
             return true;
         }
 
-        public Task<Course[]> GetAllCourses()
+        public List<Course> GetAllCourses()
         {
-            throw new NotImplementedException();
+            var courses = _context.Courses.ToList();
+
+            return courses;
         }
     }
 }

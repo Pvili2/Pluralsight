@@ -99,6 +99,10 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql.Migrations
                     b.Property<int>("NumberOfLicense")
                         .HasColumnType("int");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime2");
 
