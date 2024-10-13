@@ -3,8 +3,10 @@
     "ConsoleApp": {
       "commandName": "Project",
       "environmentVariables": {
-        "DB_CONNECTION": "Server=(localdb)\\MSSQLLocalDB;Database=Plurasight",
-        "API_KEY": "my-secret-key"
+        "DB_CONNECTION": "Data Source=(localdb)\\MSSQLLocalDB; Initial Catalog=Plurasight",
+        "ENVIRONMENT": "Development",
+        "ADMIN_NAME": "Admin",
+        "ADMIN_PASSWORD": "Admin"
       }
     }
   }

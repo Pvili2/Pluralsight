@@ -4,6 +4,7 @@ using A4QN57_HSZF_2024251.Persistence.MsSql;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics.Metrics;
+using DotNetEnv;
 
 namespace A4QN57_HSZF_2024251
 {
@@ -12,6 +13,8 @@ namespace A4QN57_HSZF_2024251
         private static AppDbContext context = new AppDbContext();
         static async Task Main(string[] args)
         {
+            Env.Load();
+            
             var exampleCourse = new Course
             {
                 Title = "Software Architecture",

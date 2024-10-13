@@ -1,15 +1,14 @@
 ﻿using System.Security.Cryptography;
-using System;
-using System.Text;
 using A4QN57_HSZF_2024251.Model;
-using Microsoft.EntityFrameworkCore;
 
 namespace A4QN57_HSZF_2024251.Persistence.MsSql
 {
     public class UserDataProvider : IUserServiceDataProvider
     {
+        
         private readonly AppDbContext _context;
-
+        private readonly string _adminName = Environment.GetEnvironmentVariable("ADMIN_NAME");
+        private readonly string _adminPassword = Environment.GetEnvironmentVariable("ADMIN_PASSWORD");
         public UserDataProvider(AppDbContext context)
         {
             _context = context;
@@ -57,6 +56,7 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
 
         public bool Login(string name, string password)
         {
+
             var user = _context.Users.Where(t => t.Name == name).Select(t => t.Password).FirstOrDefault();
 
             if (user != null)
@@ -82,5 +82,18 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
             return true;
         }
 
+        public async Task<bool> IsAdmin(string name, string password)
+        {
+            var user = _context.Users.Where(t => t.Name == _adminName).Select(t => t.Password).FirstOrDefault();
+
+            if (password == _adminPassword)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

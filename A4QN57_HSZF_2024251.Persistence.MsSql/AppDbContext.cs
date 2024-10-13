@@ -7,7 +7,6 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
     //connection to the database
     public class AppDbContext : DbContext
     {
-        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             Env.Load();
