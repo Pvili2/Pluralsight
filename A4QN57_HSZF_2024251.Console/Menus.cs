@@ -26,7 +26,7 @@ namespace A4QN57_HSZF_2024251.Console
                         string repassword = PasswordInput();
                         userService.Registration(username, password, repassword);
                         System.Console.WriteLine("Submitting...");
-                        Thread.Sleep(2000); 
+                        Thread.Sleep(2000);
 
                         System.Console.Clear();
                         CreateMainMenu(args, userService).Show();
@@ -46,34 +46,79 @@ namespace A4QN57_HSZF_2024251.Console
             }
             else
             {
-                return new ConsoleMenu(args, level: 0)
-                    .Add("Data", (thisMenu) =>
-                    {
-                        System.Console.Clear();
-                        System.Console.WriteLine(thisMenu.CurrentItem.Name);
-                        string helo = System.Console.ReadLine();
-                        System.Console.WriteLine(helo);
-                    })
-                    .Add("Another data", () =>
-                    {
-                        System.Console.Clear();
-                    })
-                    .Add("Logout", () =>
-                    {
-                        System.Console.WriteLine("Logout...");
-                        Thread.Sleep(3000);
-                        isLoggedIn = false;
-                        CreateMainMenu(args, userService).Show();
-                        
-                    System.Console.Clear();
-                    })
-                    .Add("Exit", () => Environment.Exit(0))
-                    .Configure(config =>
-                    {
-                        config.Selector = "-->";
-                        config.Title = !isAdmin ? "Plurasight - User" : "Plurasight - Admin";
-                        config.EnableBreadcrumb = true;
-                    });
+                if (!isAdmin)
+                {
+                    return new ConsoleMenu(args, level: 0)
+                       .Add("My courses", (thisMenu) =>
+                       {
+                           System.Console.Clear();
+                           System.Console.WriteLine(thisMenu.CurrentItem.Name);
+                           string helo = System.Console.ReadLine();
+                           System.Console.WriteLine(helo);
+                       })
+                       .Add("My licences", () =>
+                       {
+                           System.Console.Clear();
+                       })
+                       .Add("Buy licences", () =>
+                       {
+                           System.Console.Clear();
+                       })
+                       .Add("Renew License", () =>
+                       {
+                           System.Console.Clear();
+                       })
+                       .Add("Logout", () =>
+                       {
+                           System.Console.WriteLine("Logout...");
+                           Thread.Sleep(3000);
+                           isLoggedIn = false;
+                           CreateMainMenu(args, userService).Show();
+
+                           System.Console.Clear();
+                       })
+                       .Add("Exit", () => Environment.Exit(0))
+                       .Configure(config =>
+                       {
+                           config.Selector = "-->";
+                           config.Title = !isAdmin ? "Plurasight - User" : "Plurasight - Admin";
+                           config.EnableBreadcrumb = true;
+                       });
+                }
+                else
+                {
+                    return new ConsoleMenu(args, level: 0)
+                        .Add("Upload new course", (thisMenu) =>
+                        {
+                            System.Console.Clear();
+                            System.Console.WriteLine(thisMenu.CurrentItem.Name);
+                            string helo = System.Console.ReadLine();
+                            System.Console.WriteLine(helo);
+                        })
+                        .Add("Modify courses", () =>
+                        {
+                            System.Console.Clear();
+                        })
+                        .Add("Send license expire warning", () =>
+                        {
+                            System.Console.Clear();
+                        })
+                        .Add("Logout", () =>
+                        {
+                            System.Console.Clear();
+                            System.Console.WriteLine("Logout...");
+                            Thread.Sleep(3000);
+                            isLoggedIn = false;
+                            CreateMainMenu(args, userService).Show();
+                        })
+                        .Add("Exit", () => Environment.Exit(0))
+                        .Configure(config =>
+                        {
+                            config.Selector = "-->";
+                            config.Title = !isAdmin ? "Plurasight - User" : "Plurasight - Admin";
+                            config.EnableBreadcrumb = true;
+                        });
+                }
             }
         }
         static string PasswordInput()
