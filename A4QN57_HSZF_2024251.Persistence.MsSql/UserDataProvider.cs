@@ -53,7 +53,6 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
             return true;
         }
 
-
         public bool Login(string name, string password)
         {
 
@@ -82,18 +81,21 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
             return true;
         }
 
-        public async Task<bool> IsAdmin(string name, string password)
+        public async Task<bool> AdminLogin(string name, string password)
         {
-            var user = _context.Users.Where(t => t.Name == _adminName).Select(t => t.Password).FirstOrDefault();
+            var userPassword = _context.Users
+                                .Where(t => t.Name == name)
+                                .Select(t => t.Password)
+                                .FirstOrDefault();
+            if (userPassword != null && VerifyPassword(password, userPassword))
+            {
+                if (name == _adminName && userPassword == HashPassword(_adminPassword))
+                {
+                    return true;
+                }
+            }
 
-            if (password == _adminPassword)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return false;
         }
     }
 }

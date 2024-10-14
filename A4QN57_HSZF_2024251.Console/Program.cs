@@ -3,10 +3,11 @@ using A4QN57_HSZF_2024251.Model;
 using A4QN57_HSZF_2024251.Persistence.MsSql;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Diagnostics.Metrics;
 using DotNetEnv;
+using ConsoleTools;
+using System.Reflection.Metadata;
 
-namespace A4QN57_HSZF_2024251
+namespace A4QN57_HSZF_2024251.Console
 {
     internal class Program
     {
@@ -44,10 +45,11 @@ namespace A4QN57_HSZF_2024251
 
             await courseService.CreateCourse(exampleCourse);
 
-            Console.WriteLine(userService.Login("Padla Vilmos", "Csempe1234*"));
-           
-            Console.WriteLine("Press any key to shutdown!");
-            Console.ReadKey();
+            var mainMenu = Menus.CreateMainMenu(args);
+
+            mainMenu.Show();
+            System.Console.WriteLine("Press any key to shutdown!");
+            System.Console.ReadKey();
         }
     }
 }
