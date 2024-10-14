@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using DotNetEnv;
 using ConsoleTools;
 using System.Reflection.Metadata;
+using A4QN57_HSZF_2024251.Application;
+using System;
 
 namespace A4QN57_HSZF_2024251.Console
 {
@@ -15,7 +17,6 @@ namespace A4QN57_HSZF_2024251.Console
         static async Task Main(string[] args)
         {
             Env.Load();
-            
             var exampleCourse = new Course
             {
                 Title = "Software Architecture",
@@ -33,6 +34,7 @@ namespace A4QN57_HSZF_2024251.Console
                     services.AddTransient<AppDbContext>();
                     services.AddSingleton<ICourseServiceDataProvider, CourseDataProvider>();
                     services.AddSingleton<IUserServiceDataProvider, UserDataProvider>();
+                    services.AddSingleton<IUserService, UserService>();
                 }).Build();
 
             await host.StartAsync();
@@ -41,11 +43,9 @@ namespace A4QN57_HSZF_2024251.Console
             IServiceProvider serviceProvider = serviceScope.ServiceProvider;
 
             var courseService = serviceProvider.GetService<ICourseServiceDataProvider>();
-            var userService = serviceProvider.GetService<IUserServiceDataProvider>();
-
-            await courseService.CreateCourse(exampleCourse);
-
-            var mainMenu = Menus.CreateMainMenu(args);
+            var userService = serviceProvider.GetService<IUserService>();
+              
+            var mainMenu = Menus.CreateMainMenu(args, userService);
 
             mainMenu.Show();
             System.Console.WriteLine("Press any key to shutdown!");

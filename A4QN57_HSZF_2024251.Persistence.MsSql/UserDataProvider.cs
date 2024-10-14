@@ -60,6 +60,7 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
 
             if (user != null)
             {
+                Console.WriteLine();
                 return VerifyPassword(password, user);
             }
             else
@@ -81,7 +82,7 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
             return true;
         }
 
-        public async Task<bool> AdminLogin(string name, string password)
+        public bool AdminLogin(string name, string password)
         {
             var userPassword = _context.Users
                                 .Where(t => t.Name == name)
@@ -89,7 +90,7 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
                                 .FirstOrDefault();
             if (userPassword != null && VerifyPassword(password, userPassword))
             {
-                if (name == _adminName && userPassword == HashPassword(_adminPassword))
+                if (name == _adminName && VerifyPassword(password, userPassword))
                 {
                     return true;
                 }
