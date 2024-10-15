@@ -1,4 +1,5 @@
 ﻿using A4QN57_HSZF_2024251.Application;
+using A4QN57_HSZF_2024251.Model;
 using ConsoleTools;
 using System;
 using System.Threading;
@@ -9,11 +10,12 @@ namespace A4QN57_HSZF_2024251.Console
     {
         public static bool isLoggedIn = false;
         public static bool isAdmin = false;
-        public static ConsoleMenu CreateMainMenu(string[] args, IUserService userService)
+        public static User user = null;
+        public static ConsoleMenu CreateMainMenu(string[] args, IUserService userService, ICourseService courseService)
         {
             if (!isLoggedIn)
             {
-                var loginSubMenu = CreateLoginSubMenu(args, userService);
+                var loginSubMenu = CreateLoginSubMenu(args, userService, courseService);
                 return new ConsoleMenu(args, level: 0)
                     .Add("Registration", (thisMenu) =>
                     {
@@ -29,7 +31,7 @@ namespace A4QN57_HSZF_2024251.Console
                         Thread.Sleep(2000);
 
                         System.Console.Clear();
-                        CreateMainMenu(args, userService).Show();
+                        CreateMainMenu(args, userService, courseService).Show();
                     })
                     .Add("Login", () =>
                     {
@@ -73,7 +75,7 @@ namespace A4QN57_HSZF_2024251.Console
                            System.Console.WriteLine("Logout...");
                            Thread.Sleep(3000);
                            isLoggedIn = false;
-                           CreateMainMenu(args, userService).Show();
+                           CreateMainMenu(args, userService, courseService).Show();
 
                            System.Console.Clear();
                        })
@@ -88,12 +90,33 @@ namespace A4QN57_HSZF_2024251.Console
                 else
                 {
                     return new ConsoleMenu(args, level: 0)
-                        .Add("Upload new course", (thisMenu) =>
+                        .Add("Upload new course", async (thisMenu) =>
                         {
                             System.Console.Clear();
-                            System.Console.WriteLine(thisMenu.CurrentItem.Name);
-                            string helo = System.Console.ReadLine();
-                            System.Console.WriteLine(helo);
+                            System.Console.Write("Title: ");
+                            string title = System.Console.ReadLine();
+                            System.Console.Write("Status: ");
+                            Status status = Enum.Parse<Status>(System.Console.ReadLine());
+                            System.Console.Write("Hours: ");
+                            int hours = int.Parse(System.Console.ReadLine());
+                            System.Console.Write("Description: ");
+                            string description = System.Console.ReadLine();
+                            System.Console.Write("Category: ");
+                            Category category = Enum.Parse<Category>(System.Console.ReadLine());
+                            DateTime publicDate = DateTime.Now;
+                            Course course = new Course {
+                                Category = category,
+                                PublicDate = publicDate,
+                                Description = description,
+                                HoursLength = hours,
+                                Status = status,
+                                Title = title,
+                            };
+                            await courseService.CreateCourse(course);
+                            System.Console.WriteLine("Upload course...");
+                            Thread.Sleep(1000);
+                            System.Console.Clear();
+
                         })
                         .Add("Modify courses", () =>
                         {
@@ -109,7 +132,7 @@ namespace A4QN57_HSZF_2024251.Console
                             System.Console.WriteLine("Logout...");
                             Thread.Sleep(3000);
                             isLoggedIn = false;
-                            CreateMainMenu(args, userService).Show();
+                            CreateMainMenu(args, userService, courseService).Show();
                         })
                         .Add("Exit", () => Environment.Exit(0))
                         .Configure(config =>
@@ -144,7 +167,7 @@ namespace A4QN57_HSZF_2024251.Console
 
             return pass;
         }
-        public static ConsoleMenu CreateLoginSubMenu(string[] args, IUserService userService)
+        public static ConsoleMenu CreateLoginSubMenu(string[] args, IUserService userService, ICourseService courseService)
         {
             return new ConsoleMenu(args, level: 1)
                 .Add("Admin login", () =>
@@ -158,7 +181,7 @@ namespace A4QN57_HSZF_2024251.Console
                     isLoggedIn = userService.AdminLogin(username, password);
                     isAdmin = userService.AdminLogin(username, password);
                     Thread.Sleep(2000);
-                    CreateMainMenu(args, userService).Show();
+                    CreateMainMenu(args, userService, courseService).Show();
                 })
                 .Add("User login", () =>
                 {
@@ -171,7 +194,7 @@ namespace A4QN57_HSZF_2024251.Console
                     isAdmin = false;
                     System.Console.WriteLine("Logging in...");
                     Thread.Sleep(2000);
-                    CreateMainMenu(args, userService).Show();
+                    CreateMainMenu(args, userService, courseService).Show();
                 })
                 .Add("Exit", (currentMenu) =>
                 {

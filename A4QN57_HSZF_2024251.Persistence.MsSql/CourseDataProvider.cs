@@ -18,10 +18,17 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
         }
         public async Task<bool> CreateCourse(Course course)
         {
-            await _context.Courses.AddAsync(course);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.Courses.AddAsync(course);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
 
-            return true;
         }
 
         public List<Course> GetAllCourses()
