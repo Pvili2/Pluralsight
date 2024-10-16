@@ -121,6 +121,7 @@ namespace A4QN57_HSZF_2024251.Console
                         .Add("Modify courses", () =>
                         {
                             System.Console.Clear();
+                            courseService.GenerateCoursePickerMenu(args).Show();
                         })
                         .Add("Send license expire warning", () =>
                         {
