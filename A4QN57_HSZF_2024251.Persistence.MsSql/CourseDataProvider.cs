@@ -37,5 +37,20 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
 
             return courses;
         }
+
+        public Course GetCourseById(int id)
+        {
+            return _context.Courses.Where(x => x.Id == id).First();
+        }
+
+        public async void UpdateCourseProperty(int id,string propertyName, object newValue)
+        {
+            Course courseById = GetCourseById(id);
+            var entry = _context.Entry(courseById);
+
+            entry.Property(propertyName).CurrentValue = newValue;
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

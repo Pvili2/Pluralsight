@@ -26,6 +26,30 @@ namespace A4QN57_HSZF_2024251.Application
             return isSucceed;
         }
 
+        public ConsoleMenu GenerateCoursePropertyMenu(string[] args, Course course)
+        {
+            ConsoleMenu propertyMenu = new ConsoleMenu(args, 2);
+            Type type = course.GetType();
+
+            foreach (var item in type.GetProperties())
+            {
+                propertyMenu.Add(item.Name, () => 
+                {
+                    Console.Clear();
+                    Console.Write($"Írd be az új {item.Name}-t:");
+                    object value = Convert.ChangeType(Console.ReadLine(), item.PropertyType);
+                    _provider.UpdateCourseProperty(course.Id, item.Name, value);
+                });
+            }
+
+            propertyMenu.Add("Close", (currentMenu) =>
+            {
+                currentMenu.CloseMenu();
+            });
+
+            return propertyMenu;
+        }
+
         public ConsoleMenu GenerateCoursePickerMenu(string[] args)
         {
             ConsoleMenu dynamicMenu = new ConsoleMenu(args, 1);
@@ -33,9 +57,10 @@ namespace A4QN57_HSZF_2024251.Application
 
             foreach (var item in courses)
             {
-                dynamicMenu.Add(item.Title, (currentMenu) => 
+                dynamicMenu.Add(item.Title, async (currentMenu) => 
                 {
-                
+                    Console.Clear();
+                    GenerateCoursePropertyMenu(args,item).Show();
                 });
             }
 
