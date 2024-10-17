@@ -1,6 +1,7 @@
 ﻿using A4QN57_HSZF_2024251.Model;
 using A4QN57_HSZF_2024251.Persistence.MsSql;
 using ConsoleTools;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,6 @@ namespace A4QN57_HSZF_2024251.Application
     public class CourseService : ICourseService
     {
         private readonly ICourseServiceDataProvider _provider;
-
         public CourseService(ICourseServiceDataProvider provider)
         {
             _provider = provider;
@@ -24,6 +24,13 @@ namespace A4QN57_HSZF_2024251.Application
             bool isSucceed = await _provider.CreateCourse(course);
 
             return isSucceed;
+
+        }
+
+        public List<Course> GetCourses()
+        {
+            var courses = _provider.GetAllCourses();
+            return courses;
         }
 
         public ConsoleMenu GenerateCoursePropertyMenu(string[] args, Course course)
@@ -37,7 +44,7 @@ namespace A4QN57_HSZF_2024251.Application
                 {
                     Console.Clear();
                     Console.Write($"Írd be az új {item.Name}-t:");
-                    object value = Convert.ChangeType(Console.ReadLine(), item.PropertyType);
+                    var value = Convert.ChangeType(Console.ReadLine(), item.PropertyType);
                     _provider.UpdateCourseProperty(course.Id, item.Name, value);
                 });
             }

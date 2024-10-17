@@ -29,6 +29,7 @@ RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutab
 <Node Id = "User.Licenses" Label="Licenses (*)" Name="Licenses" Category="Navigation Collection" Type="ICollection&lt;License&gt;"  Field="" Dependent="License" Principal="" Inverse="" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "User.Name" Label="Name (string)" Name="Name" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
 <Node Id = "User.NumberOfLicense" Label="NumberOfLicense (int)" Name="NumberOfLicense" Category="Property Required" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "User.Password" Label="Password (string)" Name="Password" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
 <Node Id = "User.RegistrationDate" Label="RegistrationDate (DateTime)" Name="RegistrationDate" Category="Property Required" Type="DateTime" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
   </Nodes>
   <Links>
@@ -55,6 +56,7 @@ RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutab
 <Link Source = "User" Target="User.Id" Category="Contains" />
 <Link Source = "User" Target="User.Name" Category="Contains" />
 <Link Source = "User" Target="User.NumberOfLicense" Category="Contains" />
+<Link Source = "User" Target="User.Password" Category="Contains" />
 <Link Source = "User" Target="User.RegistrationDate" Category="Contains" />
   </Links>
   <Styles>

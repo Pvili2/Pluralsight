@@ -53,19 +53,19 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
             return true;
         }
 
-        public bool Login(string name, string password)
+        public User Login(string name, string password)
         {
 
-            var user = _context.Users.Where(t => t.Name == name).Select(t => t.Password).FirstOrDefault();
-
+            var user = _context.Users.Where(t => t.Name == name).FirstOrDefault();
+            var pass = user?.Password;
             if (user != null)
             {
                 Console.WriteLine();
-                return VerifyPassword(password, user);
+                return VerifyPassword(password, pass.ToString()) ? user : null;
             }
             else
             {
-                return false;
+                return null;
             }
         }
 
@@ -82,21 +82,20 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
             return true;
         }
 
-        public bool AdminLogin(string name, string password)
+        public User AdminLogin(string name, string password)
         {
-            var userPassword = _context.Users
-                                .Where(t => t.Name == name)
-                                .Select(t => t.Password)
-                                .FirstOrDefault();
-            if (userPassword != null && VerifyPassword(password, userPassword))
+            var user = _context.Users
+                                .Where(t => t.Name == name).FirstOrDefault();
+
+            var pass = user?.Password;
+            if (user != null && VerifyPassword(password, pass))
             {
-                if (name == _adminName && VerifyPassword(password, userPassword))
+                if (name == _adminName && VerifyPassword(password, pass))
                 {
-                    return true;
+                    return user;
                 }
             }
-
-            return false;
+            return null;
         }
     }
 }

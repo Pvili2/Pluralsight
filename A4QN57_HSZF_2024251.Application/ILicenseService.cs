@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 
 namespace A4QN57_HSZF_2024251.Application
 {
-    public interface ICourseService
+    public interface ILicenseService
     {
-        Task<bool> CreateCourse(Course course);
-        List<Course> GetCourses();
-        ConsoleMenu GenerateCoursePickerMenu(string[] args);
-
+        Task<bool> CreateLicense(License license);
+        ConsoleMenu GenerateCoursePickerMenu(ICourseService courseService, User user);
     }
 }

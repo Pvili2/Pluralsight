@@ -10,12 +10,12 @@ namespace A4QN57_HSZF_2024251.Console
     {
         public static bool isLoggedIn = false;
         public static bool isAdmin = false;
-        public static User user = null;
-        public static ConsoleMenu CreateMainMenu(string[] args, IUserService userService, ICourseService courseService)
+        public static User loggedUser = null;
+        public static ConsoleMenu CreateMainMenu(string[] args, IUserService userService, ICourseService courseService, ILicenseService licenseService)
         {
             if (!isLoggedIn)
             {
-                var loginSubMenu = CreateLoginSubMenu(args, userService, courseService);
+                var loginSubMenu = CreateLoginSubMenu(args, userService, courseService, licenseService);
                 return new ConsoleMenu(args, level: 0)
                     .Add("Registration", (thisMenu) =>
                     {
@@ -31,7 +31,7 @@ namespace A4QN57_HSZF_2024251.Console
                         Thread.Sleep(2000);
 
                         System.Console.Clear();
-                        CreateMainMenu(args, userService, courseService).Show();
+                        CreateMainMenu(args, userService, courseService, licenseService).Show();
                     })
                     .Add("Login", () =>
                     {
@@ -65,6 +65,7 @@ namespace A4QN57_HSZF_2024251.Console
                        .Add("Buy licences", () =>
                        {
                            System.Console.Clear();
+                           licenseService.GenerateCoursePickerMenu(courseService, loggedUser).Show();
                        })
                        .Add("Renew License", () =>
                        {
@@ -75,7 +76,7 @@ namespace A4QN57_HSZF_2024251.Console
                            System.Console.WriteLine("Logout...");
                            Thread.Sleep(3000);
                            isLoggedIn = false;
-                           CreateMainMenu(args, userService, courseService).Show();
+                           CreateMainMenu(args, userService, courseService, licenseService).Show();
 
                            System.Console.Clear();
                        })
@@ -133,7 +134,7 @@ namespace A4QN57_HSZF_2024251.Console
                             System.Console.WriteLine("Logout...");
                             Thread.Sleep(3000);
                             isLoggedIn = false;
-                            CreateMainMenu(args, userService, courseService).Show();
+                            CreateMainMenu(args, userService, courseService, licenseService).Show();
                         })
                         .Add("Exit", () => Environment.Exit(0))
                         .Configure(config =>
@@ -168,7 +169,7 @@ namespace A4QN57_HSZF_2024251.Console
 
             return pass;
         }
-        public static ConsoleMenu CreateLoginSubMenu(string[] args, IUserService userService, ICourseService courseService)
+        public static ConsoleMenu CreateLoginSubMenu(string[] args, IUserService userService, ICourseService courseService, ILicenseService licenseService)
         {
             return new ConsoleMenu(args, level: 1)
                 .Add("Admin login", () =>
@@ -178,11 +179,12 @@ namespace A4QN57_HSZF_2024251.Console
                     string username = System.Console.ReadLine();
                     System.Console.Write("Password: ");
                     string password = PasswordInput();
-
-                    isLoggedIn = userService.AdminLogin(username, password);
-                    isAdmin = userService.AdminLogin(username, password);
+                    var user = userService.AdminLogin(username, password);
+                    isLoggedIn = user != null;
+                    isAdmin = user != null;
+                    loggedUser = user;
                     Thread.Sleep(2000);
-                    CreateMainMenu(args, userService, courseService).Show();
+                    CreateMainMenu(args, userService, courseService, licenseService).Show();
                 })
                 .Add("User login", () =>
                 {
@@ -191,11 +193,13 @@ namespace A4QN57_HSZF_2024251.Console
                     string username = System.Console.ReadLine();
                     System.Console.Write("Password: ");
                     string password = PasswordInput();
-                    isLoggedIn = userService.Login(username, password);
+                    var user = userService.Login(username, password);
+                    isLoggedIn = user != null;
                     isAdmin = false;
+                    loggedUser = user;
                     System.Console.WriteLine("Logging in...");
                     Thread.Sleep(2000);
-                    CreateMainMenu(args, userService, courseService).Show();
+                    CreateMainMenu(args, userService, courseService, licenseService).Show();
                 })
                 .Add("Exit", (currentMenu) =>
                 {

@@ -1,4 +1,5 @@
-﻿using A4QN57_HSZF_2024251.Persistence.MsSql;
+﻿using A4QN57_HSZF_2024251.Model;
+using A4QN57_HSZF_2024251.Persistence.MsSql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,10 @@ namespace A4QN57_HSZF_2024251.Application
         {
             _provider = provider;
         }
-        public bool Login(string name, string password)
+        public User Login(string name, string password)
         {
-            bool success = _provider.Login(name, password);  
-            return success; 
+           
+            return _provider.Login(name, password);  
         }
 
         public async void Registration(string name, string password, string repassword)
@@ -34,13 +35,11 @@ namespace A4QN57_HSZF_2024251.Application
             }
         }
 
-        public bool AdminLogin(string name, string password)
+        public User AdminLogin(string name, string password)
         {
-            bool success = _provider.AdminLogin(name, password);
 
-            return success;
+            return _provider.AdminLogin(name, password);
+
         }
-
-
     }
 }

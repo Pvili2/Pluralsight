@@ -17,17 +17,7 @@ namespace A4QN57_HSZF_2024251.Console
         static async Task Main(string[] args)
         {
             Env.Load();
-            //var exampleCourse = new Course
-            //{
-            //    Title = "Software Architecture",
-            //    Description = "This course provides an in-depth overview of software architecture principles and practices.",
-            //    Category = Category.Science,
-            //    HoursLength = 40,
-            //    PublicDate = DateTime.Now.AddMonths(-1),
-            //    Status = Status.Active,
-            //    Licenses = new List<License>()
-            //};
-
+           
             var host = Host.CreateDefaultBuilder()
                 .ConfigureServices((hostContext, services) =>
                 {
@@ -37,6 +27,7 @@ namespace A4QN57_HSZF_2024251.Console
                     services.AddSingleton<ILicenseServiceDataProvider, LicenseDataProvider>();
                     services.AddSingleton<IUserService, UserService>();
                     services.AddSingleton<ICourseService, CourseService>();
+                    services.AddSingleton<ILicenseService, LicenseService>();
                 }).Build();
 
             await host.StartAsync();
@@ -46,8 +37,8 @@ namespace A4QN57_HSZF_2024251.Console
 
             var courseService = serviceProvider.GetService<ICourseService>();
             var userService = serviceProvider.GetService<IUserService>();
-              
-            var mainMenu = Menus.CreateMainMenu(args, userService, courseService);
+            var licenseService = serviceProvider.GetService<ILicenseService>();
+            var mainMenu = Menus.CreateMainMenu(args, userService, courseService, licenseService);
 
             mainMenu.Show();
             System.Console.WriteLine("Press any key to shutdown!");
