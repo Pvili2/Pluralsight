@@ -28,7 +28,13 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
             {
                 return false;
             }
+        }
 
+        public List<License> GetLicenseByUserId(int id)
+        {
+            List<License> result = _context.Licenses.Where(x => x.UserId == id).ToList();
+
+            return result;
         }
     }
 }

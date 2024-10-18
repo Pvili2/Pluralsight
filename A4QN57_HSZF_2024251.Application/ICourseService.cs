@@ -11,8 +11,8 @@ namespace A4QN57_HSZF_2024251.Application
     public interface ICourseService
     {
         Task<bool> CreateCourse(Course course);
+        Course GetCourseById(int id);
         List<Course> GetCourses();
         ConsoleMenu GenerateCoursePickerMenu(string[] args);
-
     }
 }

@@ -33,6 +33,10 @@ namespace A4QN57_HSZF_2024251.Application
             return courses;
         }
 
+        public Course GetCourseById(int id)
+        {
+            return _provider.GetCourseById(id);
+        }
         public ConsoleMenu GenerateCoursePropertyMenu(string[] args, Course course)
         {
             ConsoleMenu propertyMenu = new ConsoleMenu(args, 2);

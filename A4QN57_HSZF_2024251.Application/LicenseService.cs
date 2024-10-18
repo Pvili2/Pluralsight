@@ -1,6 +1,7 @@
 ﻿using A4QN57_HSZF_2024251.Model;
 using A4QN57_HSZF_2024251.Persistence.MsSql;
 using ConsoleTools;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,6 +71,20 @@ namespace A4QN57_HSZF_2024251.Application
             });
 
             return dynamicMenu;
+        }
+        
+        public ConsoleMenu GenerateMyLicenseMenu(User user, ICourseService courseService)
+        {
+            ConsoleMenu licenseMenu = new ConsoleMenu();
+            var licenses = _provider.GetLicenseByUserId(user.Id);
+            foreach (var item in licenses)
+            {
+                var course = courseService.GetCourseById(item.CourseId);
+                licenseMenu.Add($"{course.Title}({item.AvailabilityDate.Month - DateTime.Now.Month} month remaining)", () => { });
+            }
+
+            licenseMenu.Add("Close", (currentMenu) => currentMenu.CloseMenu());
+            return licenseMenu;
         }
     }
 }

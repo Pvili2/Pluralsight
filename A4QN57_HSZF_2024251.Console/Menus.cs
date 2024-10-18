@@ -61,6 +61,7 @@ namespace A4QN57_HSZF_2024251.Console
                        .Add("My licences", () =>
                        {
                            System.Console.Clear();
+                           licenseService.GenerateMyLicenseMenu(loggedUser, courseService).Show();
                        })
                        .Add("Buy licences", () =>
                        {
