@@ -12,6 +12,7 @@ namespace A4QN57_HSZF_2024251.Application
     {
         Task<bool> CreateLicense(License license);
         ConsoleMenu GenerateCoursePickerMenu(ICourseService courseService, User user);
-        public ConsoleMenu GenerateMyLicenseMenu(User user, ICourseService courseService);
+        public ConsoleMenu GenerateMyLicenseMenu(User user, ICourseService courseService, string chooseMenu);
+
     }
 }

@@ -54,14 +54,14 @@ namespace A4QN57_HSZF_2024251.Console
                        .Add("My courses", (thisMenu) =>
                        {
                            System.Console.Clear();
-                           System.Console.WriteLine(thisMenu.CurrentItem.Name);
-                           string helo = System.Console.ReadLine();
-                           System.Console.WriteLine(helo);
+                           System.Console.WriteLine("Load your courses...");
+                           Thread.Sleep(3000);
+                           licenseService.GenerateMyLicenseMenu(loggedUser, courseService, "Course").Show();
                        })
                        .Add("My licences", () =>
                        {
                            System.Console.Clear();
-                           licenseService.GenerateMyLicenseMenu(loggedUser, courseService).Show();
+                           licenseService.GenerateMyLicenseMenu(loggedUser, courseService, "License").Show();
                        })
                        .Add("Buy licences", () =>
                        {
@@ -92,7 +92,7 @@ namespace A4QN57_HSZF_2024251.Console
                 else
                 {
                     return new ConsoleMenu(args, level: 0)
-                        .Add("Upload new course", async (thisMenu) =>
+                        .Add("Upload new course", async () =>
                         {
                             System.Console.Clear();
                             System.Console.Write("Title: ");

@@ -15,7 +15,6 @@ namespace A4QN57_HSZF_2024251.Application
         private readonly ILicenseServiceDataProvider _provider;
         readonly int[] LICENSE_LENGHT = [1, 3, 6, 12]; //months
 
-
         public LicenseService(ILicenseServiceDataProvider provider)
         {
             _provider = provider;
@@ -51,6 +50,13 @@ namespace A4QN57_HSZF_2024251.Application
             return licenseMenu;
         }
 
+        private int GetRemainingMonths(DateTime date1, DateTime date2) //2024, 2026
+        {
+            int monthsDifference = ((date2.Year - date1.Year) * 12) + date2.Month - date1.Month;
+
+            return monthsDifference;
+        }
+
         public ConsoleMenu GenerateCoursePickerMenu(ICourseService courseService, User user)
         {
             ConsoleMenu dynamicMenu = new ConsoleMenu();
@@ -73,18 +79,46 @@ namespace A4QN57_HSZF_2024251.Application
             return dynamicMenu;
         }
         
-        public ConsoleMenu GenerateMyLicenseMenu(User user, ICourseService courseService)
+        public ConsoleMenu GenerateMyLicenseMenu(User user, ICourseService courseService, string chooseMenu)
         {
-            ConsoleMenu licenseMenu = new ConsoleMenu();
-            var licenses = _provider.GetLicenseByUserId(user.Id);
-            foreach (var item in licenses)
+            if (chooseMenu == "License")
             {
-                var course = courseService.GetCourseById(item.CourseId);
-                licenseMenu.Add($"{course.Title}({item.AvailabilityDate.Month - DateTime.Now.Month} month remaining)", () => { });
-            }
+                
+                ConsoleMenu licenseMenu = new ConsoleMenu();
+                var licenses = _provider.GetLicenseByUserId(user.Id);
+                foreach (var item in licenses)
+                {
+                
+                    var course = courseService.GetCourseById(item.CourseId);
+                    licenseMenu.Add($"{course.Title}({Math.Abs(GetRemainingMonths(item.AvailabilityDate, DateTime.Now))} month remaining)", () => { });
+                }
 
-            licenseMenu.Add("Close", (currentMenu) => currentMenu.CloseMenu());
-            return licenseMenu;
+                licenseMenu.Add("Close", (currentMenu) => currentMenu.CloseMenu());
+                return licenseMenu;
+            }
+            else
+            {
+                ConsoleMenu licenseMenu = new ConsoleMenu();
+                var licenses = _provider.GetLicenseByUserId(user.Id);
+                foreach (var item in licenses)
+                {
+
+                    var course = courseService.GetCourseById(item.CourseId);
+                    licenseMenu.Add($"{course.Title}", () =>
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"{course.Description}");
+
+                        Console.WriteLine("Press any key to continue...");
+                        Console.ReadKey();
+                    });
+                }
+
+                licenseMenu.Add("Close", (currentMenu) => currentMenu.CloseMenu());
+                return licenseMenu;
+            }
         }
+
+
     }
 }
