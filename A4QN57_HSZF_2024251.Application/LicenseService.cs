@@ -85,7 +85,7 @@ namespace A4QN57_HSZF_2024251.Application
             {
                 
                 ConsoleMenu licenseMenu = new ConsoleMenu();
-                var licenses = _provider.GetLicenseByUserId(user.Id);
+                var licenses = _provider.GetLicensesByUserId(user.Id);
                 foreach (var item in licenses)
                 {
                 
@@ -96,10 +96,10 @@ namespace A4QN57_HSZF_2024251.Application
                 licenseMenu.Add("Close", (currentMenu) => currentMenu.CloseMenu());
                 return licenseMenu;
             }
-            else
+            if(chooseMenu == "Course")
             {
                 ConsoleMenu licenseMenu = new ConsoleMenu();
-                var licenses = _provider.GetLicenseByUserId(user.Id);
+                var licenses = _provider.GetLicensesByUserId(user.Id);
                 foreach (var item in licenses)
                 {
 
@@ -117,6 +117,28 @@ namespace A4QN57_HSZF_2024251.Application
                 licenseMenu.Add("Close", (currentMenu) => currentMenu.CloseMenu());
                 return licenseMenu;
             }
+            if (chooseMenu == "ExtendLicense")
+            {
+                ConsoleMenu licenseMenu = new ConsoleMenu();
+                var licenses = _provider.GetLicensesByUserId(user.Id);
+                foreach (var item in licenses)
+                {
+
+                    var course = courseService.GetCourseById(item.CourseId);
+                    var license = _provider.GetLicenseByUserAndCourseId(user.Id, course.Id);
+                    var month = Math.Abs(GetRemainingMonths(item.AvailabilityDate, DateTime.Now));
+                    licenseMenu.Add($"{course.Title}({month} month remaining)", async () =>
+                    {
+                        Console.Clear();
+                        await _provider.UpdateExpireMonth(license, month);
+                    });
+                }
+
+                licenseMenu.Add("Close", (currentMenu) => currentMenu.CloseMenu());
+                return licenseMenu;
+            }
+
+            return null;
         }
 
 

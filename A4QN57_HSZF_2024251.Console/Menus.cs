@@ -41,9 +41,10 @@ namespace A4QN57_HSZF_2024251.Console
                     .Add("Exit", () => Environment.Exit(0))
                     .Configure(config =>
                     {
+                        config.SelectedItemForegroundColor = ConsoleColor.Blue;
+                        config.SelectedItemBackgroundColor = ConsoleColor.Black;
                         config.Selector = "-->";
                         config.Title = "Plurasight";
-                        config.EnableBreadcrumb = true;
                     });
             }
             else
@@ -71,6 +72,7 @@ namespace A4QN57_HSZF_2024251.Console
                        .Add("Renew License", () =>
                        {
                            System.Console.Clear();
+                           licenseService.GenerateMyLicenseMenu(loggedUser, courseService, "ExtendLicense").Show();
                        })
                        .Add("Logout", () =>
                        {
@@ -140,6 +142,7 @@ namespace A4QN57_HSZF_2024251.Console
                         .Add("Exit", () => Environment.Exit(0))
                         .Configure(config =>
                         {
+
                             config.Selector = "-->";
                             config.Title = !isAdmin ? "Plurasight - User" : "Plurasight - Admin";
                             config.EnableBreadcrumb = true;

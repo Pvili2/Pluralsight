@@ -47,7 +47,7 @@ namespace A4QN57_HSZF_2024251.Application
                 propertyMenu.Add(item.Name, () => 
                 {
                     Console.Clear();
-                    Console.Write($"Írd be az új {item.Name}-t:");
+                    Console.Write($"Update the {item.Name} property:");
                     var value = Convert.ChangeType(Console.ReadLine(), item.PropertyType);
                     _provider.UpdateCourseProperty(course.Id, item.Name, value);
                 });

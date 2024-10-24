@@ -21,6 +21,7 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
                     .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information );
             }
         }
+
         //generate or interact with the tables Courses - Users - Licenses
         public DbSet<Course> Courses { get; set; }
         public DbSet<User> Users { get; set; }

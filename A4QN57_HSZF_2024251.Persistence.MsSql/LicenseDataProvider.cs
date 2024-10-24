@@ -19,7 +19,47 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
         {
             try
             {
-                await _context.Licenses.AddAsync(license);
+                if (GetLicenseByCourseId(license.CourseId) == null || GetLicenseByUserId(license.UserId) ==null )
+                {
+                    await _context.Licenses.AddAsync(license);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public List<License> GetLicensesByUserId(int id)
+        {
+            List<License> result = _context.Licenses.Where(x => x.UserId == id).ToList();
+
+            return result;
+        }
+
+        public License GetLicenseByCourseId(int id)
+        {
+            return _context.Licenses.Where(x => x.CourseId == id).FirstOrDefault();
+        }
+
+        public License GetLicenseByUserId(int id)
+        {
+            return _context.Licenses?.Where(x => x.UserId == id).FirstOrDefault() ?? throw new Exception("Null reference");
+        }
+
+        public License GetLicenseByUserAndCourseId(int userId, int courseId)
+        {
+            return _context.Licenses.Where(x => x.UserId == userId && x.CourseId == courseId).FirstOrDefault();
+        }
+
+        public async Task<bool> UpdateExpireMonth(License license, int month)
+        {
+            try
+            {
+                license.AvailabilityDate = license.AvailabilityDate.AddMonths(month);
 
                 await _context.SaveChangesAsync();
                 return true;
@@ -28,13 +68,6 @@ namespace A4QN57_HSZF_2024251.Persistence.MsSql
             {
                 return false;
             }
-        }
-
-        public List<License> GetLicenseByUserId(int id)
-        {
-            List<License> result = _context.Licenses.Where(x => x.UserId == id).ToList();
-
-            return result;
         }
     }
 }
