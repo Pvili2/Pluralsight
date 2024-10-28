@@ -57,14 +57,13 @@ namespace A4QN57_HSZF_2024251.Application
             {
                 currentMenu.CloseMenu();
             });
-
             return propertyMenu;
         }
 
         public ConsoleMenu GenerateCoursePickerMenu(string[] args)
         {
             ConsoleMenu dynamicMenu = new ConsoleMenu(args, 1);
-            List<Course> courses = _provider.GetAllCourses();
+            List<Course> courses = _provider.GetAllCourses();            
 
             foreach (var item in courses)
             {
@@ -79,6 +78,7 @@ namespace A4QN57_HSZF_2024251.Application
             {
                 dynamicMenu.CloseMenu();
             });
+
 
             return dynamicMenu;
         }

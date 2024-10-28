@@ -11,6 +11,11 @@ namespace A4QN57_HSZF_2024251.Console
         public static bool isLoggedIn = false;
         public static bool isAdmin = false;
         public static User loggedUser = null;
+        static CustomMenuConfig loggedMenuConfig = new CustomMenuConfig(!isAdmin ? "Plurasight - User" : "Plurasight - Admin");
+        static CustomMenuConfig mainMenuConfig = new CustomMenuConfig("Plurasight");
+        static CustomMenuConfig loginMenuConfig = new CustomMenuConfig("Login");
+        static CustomMenuConfig chooseCourseMenuConfig = new CustomMenuConfig("Choose a course");
+        static CustomMenuConfig chooseLicenseMenuConfig = new CustomMenuConfig("Choose a license");
         public static ConsoleMenu CreateMainMenu(string[] args, IUserService userService, ICourseService courseService, ILicenseService licenseService)
         {
             if (!isLoggedIn)
@@ -39,13 +44,7 @@ namespace A4QN57_HSZF_2024251.Console
                         loginSubMenu.Show();
                     })
                     .Add("Exit", () => Environment.Exit(0))
-                    .Configure(config =>
-                    {
-                        config.SelectedItemForegroundColor = ConsoleColor.Blue;
-                        config.SelectedItemBackgroundColor = ConsoleColor.Black;
-                        config.Selector = "-->";
-                        config.Title = "Plurasight";
-                    });
+                    .Configure(mainMenuConfig.Config);
             }
             else
             {
@@ -57,22 +56,22 @@ namespace A4QN57_HSZF_2024251.Console
                            System.Console.Clear();
                            System.Console.WriteLine("Load your courses...");
                            Thread.Sleep(3000);
-                           licenseService.GenerateMyLicenseMenu(loggedUser, courseService, "Course").Show();
+                           licenseService.GenerateMyLicenseMenu(loggedUser, courseService, "Course").Configure(chooseCourseMenuConfig.Config).Show();
                        })
                        .Add("My licences", () =>
                        {
                            System.Console.Clear();
-                           licenseService.GenerateMyLicenseMenu(loggedUser, courseService, "License").Show();
+                           licenseService.GenerateMyLicenseMenu(loggedUser, courseService, "License").Configure(chooseLicenseMenuConfig.Config).Show();
                        })
                        .Add("Buy licences", () =>
                        {
                            System.Console.Clear();
-                           licenseService.GenerateCoursePickerMenu(courseService, loggedUser).Show();
+                           licenseService.GenerateCoursePickerMenu(courseService, loggedUser).Configure(chooseCourseMenuConfig.Config).Show();
                        })
                        .Add("Renew License", () =>
                        {
                            System.Console.Clear();
-                           licenseService.GenerateMyLicenseMenu(loggedUser, courseService, "ExtendLicense").Show();
+                           licenseService.GenerateMyLicenseMenu(loggedUser, courseService, "ExtendLicense").Configure(chooseLicenseMenuConfig.Config).Show();
                        })
                        .Add("Logout", () =>
                        {
@@ -84,12 +83,7 @@ namespace A4QN57_HSZF_2024251.Console
                            System.Console.Clear();
                        })
                        .Add("Exit", () => Environment.Exit(0))
-                       .Configure(config =>
-                       {
-                           config.Selector = "-->";
-                           config.Title = !isAdmin ? "Plurasight - User" : "Plurasight - Admin";
-                           config.EnableBreadcrumb = true;
-                       });
+                       .Configure(loggedMenuConfig.Config);
                 }
                 else
                 {
@@ -120,17 +114,15 @@ namespace A4QN57_HSZF_2024251.Console
                             System.Console.WriteLine("Upload course...");
                             Thread.Sleep(1000);
                             System.Console.Clear();
-
-                        })
+                        }) 
                         .Add("Modify courses", () =>
                         {
                             System.Console.Clear();
-                            courseService.GenerateCoursePickerMenu(args).Show();
+                            courseService.GenerateCoursePickerMenu(args).Configure(chooseCourseMenuConfig.Config).Show();
                         })
                         .Add("Send license expire warning", () =>
                         {
-                            System.Console.Clear();
-                        })
+                            System.Console.Clear();                           })
                         .Add("Logout", () =>
                         {
                             System.Console.Clear();
@@ -140,13 +132,7 @@ namespace A4QN57_HSZF_2024251.Console
                             CreateMainMenu(args, userService, courseService, licenseService).Show();
                         })
                         .Add("Exit", () => Environment.Exit(0))
-                        .Configure(config =>
-                        {
-
-                            config.Selector = "-->";
-                            config.Title = !isAdmin ? "Plurasight - User" : "Plurasight - Admin";
-                            config.EnableBreadcrumb = true;
-                        });
+                        .Configure(loggedMenuConfig.Config);
                 }
             }
         }
@@ -210,12 +196,7 @@ namespace A4QN57_HSZF_2024251.Console
                     System.Console.Clear();
                     currentMenu.CloseMenu();
                 })
-                .Configure(config =>
-                {
-                    config.Selector = "-->";
-                    config.Title = "Login";
-                    config.EnableBreadcrumb = true;
-                });
+                .Configure(loginMenuConfig.Config);
         }
     }
 }
